@@ -1,0 +1,6 @@
+com\tpJEG\rest\JAXRSConfiguration.class
+com\tpJEG\repository\ProductRepository.class
+com\tpJEG\model\TpJavaTest.class
+com\tpJEG\rest\CORSFilter.class
+com\tpJEG\rest\ProductsEndPoint.class
+com\tpJEG\model\Product.class

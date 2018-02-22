@@ -1,0 +1,198 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Product APIs TP Java por los pibes.",
+    "version" : "1.0.0",
+    "title" : "ProductStore APIs",
+    "contact" : {
+      "name" : "JEG",
+      "url" : "https://www.facebok.com",
+      "email" : "vigliancoj@gmail.com"
+    }
+  },
+  "host" : "localhost:8080",
+  "basePath" : "/productstore-back-1.0-SNAPSHOT/api",
+  "tags" : [ {
+    "name" : "Product"
+  } ],
+  "schemes" : [ "http", "https" ],
+  "paths" : {
+    "/productos" : {
+      "get" : {
+        "tags" : [ "Product" ],
+        "summary" : "Devuelve todos los productos",
+        "description" : "",
+        "operationId" : "getProductos",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "Productos encontrados",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Product"
+              }
+            }
+          },
+          "204" : {
+            "description" : "No se encontro el producto"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Product" ],
+        "summary" : "Crea un producto en formato JSON",
+        "description" : "",
+        "operationId" : "createProducto",
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "El producto fue creado",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Product"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Se creo el producto."
+          },
+          "415" : {
+            "description" : "No es formato JSON."
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Product" ],
+        "summary" : "Actualiza un producto",
+        "description" : "",
+        "operationId" : "updateProducto",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "El producto fue creado",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Product"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Producto actualizado"
+          },
+          "500" : {
+            "description" : "Producto no encontrado"
+          }
+        }
+      }
+    },
+    "/productos/count" : {
+      "get" : {
+        "tags" : [ "Product" ],
+        "summary" : "Devuelve el total de la cantidad de productos",
+        "description" : "",
+        "operationId" : "countProductos",
+        "produces" : [ "text/plain" ],
+        "responses" : {
+          "200" : {
+            "description" : "Total de productos encontrados",
+            "schema" : {
+              "type" : "integer",
+              "format" : "int64"
+            }
+          },
+          "204" : {
+            "description" : "No existen libros"
+          }
+        }
+      }
+    },
+    "/productos/{id}" : {
+      "get" : {
+        "tags" : [ "Product" ],
+        "summary" : "Devuelve un unico Producto",
+        "description" : "",
+        "operationId" : "getProducto",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "pattern" : "\\d+",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Libro Encontrado",
+            "schema" : {
+              "$ref" : "#/definitions/Product"
+            }
+          },
+          "400" : {
+            "description" : "Ingreso invalido. Debe poner un id mayor a 0."
+          },
+          "404" : {
+            "description" : "Libro no encontrado."
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Product" ],
+        "summary" : "Elimina un producto a partir del id",
+        "description" : "",
+        "operationId" : "deleteProducto",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "pattern" : "\\d+",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Producto eliminado"
+          },
+          "400" : {
+            "description" : "Ingreso invalido. Debe poner un id mayor a 0."
+          },
+          "500" : {
+            "description" : "Producto no encontrado"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "Product" : {
+      "type" : "object",
+      "properties" : {
+        "idProducto" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "Identifier"
+        },
+        "nombreProducto" : {
+          "type" : "string",
+          "description" : "Nombre del Producto"
+        },
+        "categoriaProducto" : {
+          "type" : "string",
+          "description" : "Categoria del Producto"
+        },
+        "imagenUrl" : {
+          "type" : "string",
+          "description" : "Imagen del Producto"
+        },
+        "precioUnitario" : {
+          "type" : "number",
+          "format" : "double",
+          "description" : "Precio Unitario del Producto"
+        }
+      },
+      "description" : "Book resource representation"
+    }
+  }
+}
