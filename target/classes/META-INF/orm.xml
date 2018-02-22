@@ -4,14 +4,6 @@
                  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
                                      http://xmlns.jcp.org/xml/ns/persistence/orm_2_0.xsd" version="2.1">
 
-    <!-- JPA Named Queries -->
-    <named-query name="Product.findAll">
-        <query>SELECT p FROM Product p</query>
-    </named-query>
-    <named-query name="Product.countAll">
-        <query>SELECT COUNT (p) FROM Product p</query>
-    </named-query>
-
     <!-- entity mapping -->
     <entity class="com.tpJEG.model.Product">
         <attributes>

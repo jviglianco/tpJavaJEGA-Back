@@ -6,20 +6,13 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.persistence.*;
 
 @Entity
-@NamedQueries(value = {
-        @NamedQuery(
-                name = "Product.findAll",
-                query = "SELECT p FROM Product p"),
-        @NamedQuery(
-                name = "Product.countAll",
-                query = "SELECT COUNT (p) FROM Product p")
-})
 @Table(name = "producto")
 @ApiModel(description = "Book resource representation" )
 public class Product {
 
     @Id
-    @Column(name = "idProducto")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "idProducto", updatable = false, nullable = false)
     @ApiModelProperty("Identifier")
     private Long idProducto;
 

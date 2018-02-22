@@ -27,7 +27,7 @@ public class ProductRepository {
     }
 
     public Long countAll() {
-        TypedQuery<Long> query = em.createNamedQuery("Product.countAll", Long.class);
+        TypedQuery<Long> query = em.createQuery("SELECT COUNT(p) FROM Product p", Long.class);
         return query.getSingleResult();
     }
 
