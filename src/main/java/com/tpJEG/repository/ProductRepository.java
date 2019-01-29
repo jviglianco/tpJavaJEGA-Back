@@ -5,8 +5,6 @@ import com.tpJEG.model.Product;
 import javax.annotation.Resource;
 import javax.persistence.*;
 import javax.transaction.*;
-import javax.transaction.RollbackException;
-import javax.ws.rs.Produces;
 import java.util.List;
 
 public class ProductRepository {
@@ -21,8 +19,17 @@ public class ProductRepository {
         return em.find(Product.class, idProducto);
     }
 
+    public List<Product> findProductsByCategoria(Long idCategoria) {
+        TypedQuery<Product> query = em.createQuery("FROM Product p WHERE p.idCategoria.idCategoria = :idCategoria", Product.class);
+        return query
+                .setParameter("idCategoria", idCategoria)
+                .getResultList();
+
+    }
+
     public List<Product> findAll() {
-        TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p", Product.class);
+        TypedQuery<Product> query = em.createQuery("SELECT p FROM Product p ", Product.class);
+
         return query.getResultList();
     }
 
@@ -49,6 +56,8 @@ public class ProductRepository {
         Product productDelete;
         productDelete = em.find(Product.class, idProducto);
         em.remove(productDelete);
+        em.flush();
+        em.clear();
         userTransaction.commit();
     }
 

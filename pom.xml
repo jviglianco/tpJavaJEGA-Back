@@ -40,6 +40,7 @@
             <artifactId>hibernate-core</artifactId>
             <version>5.2.6.Final</version>
         </dependency>
+
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
@@ -49,8 +50,15 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>6.0.5</version>
+            <version>5.1.47</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.9.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -210,7 +218,7 @@
                                     <groupId>org.hibernate</groupId>
                                     <artifactId>hibernate-orm-modules</artifactId>
                                     <version>5.2.6.Final</version>
-                                    <classifier>wildfly-11-dist</classifier>
+                                    <classifier>wildfly-10-dist</classifier>
                                     <type>zip</type>
                                     <overWrite>true</overWrite>
                                     <outputDirectory>

@@ -4,11 +4,19 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.*;
 
 @Entity
 @Table(name = "producto")
-@ApiModel(description = "Book resource representation" )
-public class Product {
+@ApiModel(description = "Representacion de Producto" )
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "idProducto")
+public class Product implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,9 +28,10 @@ public class Product {
     @ApiModelProperty("Nombre del Producto")
     private String nombreProducto;
 
-    @Column(name = "categoriaProducto")
+    @ManyToOne(cascade=CascadeType.MERGE)
+    @JoinColumn(name = "idCategoria")
     @ApiModelProperty("Categoria del Producto")
-    private String categoriaProducto;
+    private Categoria idCategoria;
 
     @Column(name = "imagenUrl")
     @ApiModelProperty("Imagen del Producto")
@@ -32,13 +41,20 @@ public class Product {
     @ApiModelProperty("Precio Unitario del Producto")
     private Double precioUnitario;
 
+    @OneToMany(
+            mappedBy = "idProducto",
+            orphanRemoval=true,
+            fetch = FetchType.EAGER
+    )
+    private List<DetallePedido> detallePedidoProductos = new ArrayList<>();
+
     public Product() {
     }
 
-    public Product(Long idProducto, String nombreProducto, String categoriaProducto, String imagenUrl, Double precioUnitario) {
+    public Product(Long idProducto, String nombreProducto, Categoria idCategoria, String imagenUrl, Double precioUnitario) {
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
-        this.categoriaProducto = categoriaProducto;
+        this.idCategoria = idCategoria;
         this.imagenUrl = imagenUrl;
         this.precioUnitario = precioUnitario;
     }
@@ -59,12 +75,12 @@ public class Product {
         this.nombreProducto = nombreProducto;
     }
 
-    public String getCategoriaProducto() {
-        return categoriaProducto;
+    public Categoria getIdCategoria() {
+        return idCategoria;
     }
 
-    public void setCategoriaProducto(String categoriaProducto) {
-        this.categoriaProducto = categoriaProducto;
+    public void setIdCategoria(Categoria idCategoria) {
+        this.idCategoria = idCategoria;
     }
 
     public String getImagenUrl() {
@@ -83,14 +99,4 @@ public class Product {
         this.precioUnitario = precioUnitario;
     }
 
-    @Override
-    public String toString() {
-        return "Producto{" +
-                "idProducto=" + idProducto +
-                ", nombreProducto='" + nombreProducto + '\'' +
-                ", categoriaProducto='" + categoriaProducto + '\'' +
-                ", imagenUrl='" + imagenUrl + '\'' +
-                ", precioUnitario=" + precioUnitario +
-                '}';
-    }
 }

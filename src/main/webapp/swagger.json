@@ -17,6 +17,153 @@
   } ],
   "schemes" : [ "http", "https" ],
   "paths" : {
+    "/categorias" : {
+      "get" : {
+        "tags" : [ "Product" ],
+        "summary" : "Devuelve todas las categorias",
+        "description" : "",
+        "operationId" : "getCategorias",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "Categorias encontradas",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Categoria"
+              }
+            }
+          },
+          "204" : {
+            "description" : "No se encontro la categoria"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Product" ],
+        "summary" : "Crea una categoria en formato JSON",
+        "description" : "",
+        "operationId" : "createCategoria",
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "La categoria fue creada",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Categoria"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Se creo la categoria."
+          },
+          "415" : {
+            "description" : "No es formato JSON."
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Product" ],
+        "summary" : "Actualiza una categoria",
+        "description" : "",
+        "operationId" : "updateCategoria",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "La categoria fue creada",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Categoria"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Categoria actualizada"
+          },
+          "500" : {
+            "description" : "Categoria no encontrada"
+          }
+        }
+      }
+    },
+    "/categorias/count" : {
+      "get" : {
+        "tags" : [ "Product" ],
+        "summary" : "Devuelve el total de la cantidad de categorias",
+        "description" : "",
+        "operationId" : "countCategorias",
+        "produces" : [ "text/plain" ],
+        "responses" : {
+          "200" : {
+            "description" : "Total de categorias encontradas",
+            "schema" : {
+              "type" : "integer",
+              "format" : "int64"
+            }
+          },
+          "204" : {
+            "description" : "No existen categorias"
+          }
+        }
+      }
+    },
+    "/categorias/{id}" : {
+      "get" : {
+        "tags" : [ "Product" ],
+        "summary" : "Devuelve una unica categoria",
+        "description" : "",
+        "operationId" : "getCategoria",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "pattern" : "\\d+",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Categoria Encontrada",
+            "schema" : {
+              "$ref" : "#/definitions/Categoria"
+            }
+          },
+          "400" : {
+            "description" : "Ingreso invalido. Debe poner un id mayor a 0."
+          },
+          "404" : {
+            "description" : "Categoria no encontrada."
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Product" ],
+        "summary" : "Elimina una categoria a partir del id",
+        "description" : "",
+        "operationId" : "deleteCategoria",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "pattern" : "\\d+",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Categoria eliminada"
+          },
+          "400" : {
+            "description" : "Ingreso invalido. Debe poner un id mayor a 0."
+          },
+          "500" : {
+            "description" : "Categoria no encontrada"
+          }
+        }
+      }
+    },
     "/productos" : {
       "get" : {
         "tags" : [ "Product" ],
@@ -103,7 +250,7 @@
             }
           },
           "204" : {
-            "description" : "No existen libros"
+            "description" : "No existen productos"
           }
         }
       }
@@ -125,7 +272,7 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "Libro Encontrado",
+            "description" : "Producto Encontrado",
             "schema" : {
               "$ref" : "#/definitions/Product"
             }
@@ -134,7 +281,7 @@
             "description" : "Ingreso invalido. Debe poner un id mayor a 0."
           },
           "404" : {
-            "description" : "Libro no encontrado."
+            "description" : "Producto no encontrado."
           }
         }
       },
@@ -163,9 +310,318 @@
           }
         }
       }
+    },
+    "/roles" : {
+      "get" : {
+        "tags" : [ "Product" ],
+        "summary" : "Devuelve todos los roles",
+        "description" : "",
+        "operationId" : "getRoles",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "Roles encontrados",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Rol"
+              }
+            }
+          },
+          "204" : {
+            "description" : "No se encontro el rol"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Product" ],
+        "summary" : "Crea un rol en formato JSON",
+        "description" : "",
+        "operationId" : "createRol",
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "El rol fue creado",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Rol"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Se creo el rol."
+          },
+          "415" : {
+            "description" : "No es formato JSON."
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Product" ],
+        "summary" : "Actualiza un rol",
+        "description" : "",
+        "operationId" : "updateRol",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "El rol fue creado",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Rol"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Rol actualizado"
+          },
+          "500" : {
+            "description" : "Rol no encontrado"
+          }
+        }
+      }
+    },
+    "/roles/count" : {
+      "get" : {
+        "tags" : [ "Product" ],
+        "summary" : "Devuelve el total de la cantidad de roles",
+        "description" : "",
+        "operationId" : "countRoles",
+        "produces" : [ "text/plain" ],
+        "responses" : {
+          "200" : {
+            "description" : "Total de roles encontrados",
+            "schema" : {
+              "type" : "integer",
+              "format" : "int64"
+            }
+          },
+          "204" : {
+            "description" : "No existen roles"
+          }
+        }
+      }
+    },
+    "/roles/{id}" : {
+      "get" : {
+        "tags" : [ "Product" ],
+        "summary" : "Devuelve un unico rol",
+        "description" : "",
+        "operationId" : "getRol",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "pattern" : "\\d+",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Rol Encontrado",
+            "schema" : {
+              "$ref" : "#/definitions/Rol"
+            }
+          },
+          "400" : {
+            "description" : "Ingreso invalido. Debe poner un id mayor a 0."
+          },
+          "404" : {
+            "description" : "Rol no encontrado."
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Product" ],
+        "summary" : "Elimina un rol a partir del id",
+        "description" : "",
+        "operationId" : "deleteRol",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "pattern" : "\\d+",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Rol eliminado"
+          },
+          "400" : {
+            "description" : "Ingreso invalido. Debe poner un id mayor a 0."
+          },
+          "500" : {
+            "description" : "Rol no encontrado"
+          }
+        }
+      }
+    },
+    "/usuarios" : {
+      "get" : {
+        "tags" : [ "Product" ],
+        "summary" : "Devuelve todos los usuarios",
+        "description" : "",
+        "operationId" : "getUsuarios",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "Usuarios encontrados",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Usuario"
+              }
+            }
+          },
+          "204" : {
+            "description" : "No se encontro el usuario"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Product" ],
+        "summary" : "Crea un usuario en formato JSON",
+        "description" : "",
+        "operationId" : "createUsuario",
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "El usuario fue creado",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Usuario"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Se creo el usuario."
+          },
+          "415" : {
+            "description" : "No es formato JSON."
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Product" ],
+        "summary" : "Actualiza un usuario",
+        "description" : "",
+        "operationId" : "updateUsuario",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "El usuario fue creado",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Usuario"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Usuario actualizado"
+          },
+          "500" : {
+            "description" : "Usuario no encontrado"
+          }
+        }
+      }
+    },
+    "/usuarios/count" : {
+      "get" : {
+        "tags" : [ "Product" ],
+        "summary" : "Devuelve el total de la cantidad de usuarios",
+        "description" : "",
+        "operationId" : "countUsuarios",
+        "produces" : [ "text/plain" ],
+        "responses" : {
+          "200" : {
+            "description" : "Total de usuarios encontrados",
+            "schema" : {
+              "type" : "integer",
+              "format" : "int64"
+            }
+          },
+          "204" : {
+            "description" : "No existen usuarios"
+          }
+        }
+      }
+    },
+    "/usuarios/{id}" : {
+      "get" : {
+        "tags" : [ "Product" ],
+        "summary" : "Devuelve un unico usuario",
+        "description" : "",
+        "operationId" : "getUsuario",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "pattern" : "\\d+",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Usuario Encontrado",
+            "schema" : {
+              "$ref" : "#/definitions/Usuario"
+            }
+          },
+          "400" : {
+            "description" : "Ingreso invalido. Debe poner un id mayor a 0."
+          },
+          "404" : {
+            "description" : "Usuario no encontrado."
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Product" ],
+        "summary" : "Elimina un usuario a partir del id",
+        "description" : "",
+        "operationId" : "deleteUsuario",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "integer",
+          "pattern" : "\\d+",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Usuario eliminado"
+          },
+          "400" : {
+            "description" : "Ingreso invalido. Debe poner un id mayor a 0."
+          },
+          "500" : {
+            "description" : "Usuario no encontrado"
+          }
+        }
+      }
     }
   },
   "definitions" : {
+    "Categoria" : {
+      "type" : "object",
+      "properties" : {
+        "idCategoria" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "Identifier"
+        },
+        "nombreCategoria" : {
+          "type" : "string",
+          "description" : "Nombre del Producto"
+        }
+      },
+      "description" : "Representacion de Categoria"
+    },
     "Product" : {
       "type" : "object",
       "properties" : {
@@ -178,9 +634,9 @@
           "type" : "string",
           "description" : "Nombre del Producto"
         },
-        "categoriaProducto" : {
-          "type" : "string",
-          "description" : "Categoria del Producto"
+        "idCategoria" : {
+          "description" : "Categoria del Producto",
+          "$ref" : "#/definitions/Categoria"
         },
         "imagenUrl" : {
           "type" : "string",
@@ -192,7 +648,57 @@
           "description" : "Precio Unitario del Producto"
         }
       },
-      "description" : "Book resource representation"
+      "description" : "Representacion de Producto"
+    },
+    "Rol" : {
+      "type" : "object",
+      "properties" : {
+        "idRol" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "Identifier"
+        },
+        "nombreRol" : {
+          "type" : "string",
+          "description" : "Nombre del Rol"
+        }
+      },
+      "description" : "Representacion de Rol"
+    },
+    "Usuario" : {
+      "type" : "object",
+      "properties" : {
+        "idUsuario" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "Identifier"
+        },
+        "nombreUsuario" : {
+          "type" : "string",
+          "description" : "Nombre del Usuario"
+        },
+        "apellidoUsuario" : {
+          "type" : "string",
+          "description" : "Apellido del Usuario"
+        },
+        "email" : {
+          "type" : "string",
+          "description" : "Email del Usuario"
+        },
+        "idRol" : {
+          "description" : "Rol del Usuario",
+          "$ref" : "#/definitions/Rol"
+        },
+        "username" : {
+          "type" : "string",
+          "description" : "Nombre de Usuario"
+        },
+        "password" : {
+          "type" : "string",
+          "description" : "Password de Usuario"
+        }
+      },
+      "description" : "Representacion de Usuario"
     }
   }
 }

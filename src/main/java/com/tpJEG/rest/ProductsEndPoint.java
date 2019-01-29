@@ -4,6 +4,8 @@ import com.tpJEG.model.Product;
 import com.tpJEG.repository.ProductRepository;
 import io.swagger.annotations.*;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -40,14 +42,15 @@ public class ProductsEndPoint {
     @Inject
     private ProductRepository productoRepository;
 
+    @RolesAllowed("ADMIN")
     @GET
     @Path("/{id : \\d+}")
     @Produces(APPLICATION_JSON)
     @ApiOperation(value = "Devuelve un unico Producto", response = Product.class)
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Libro Encontrado"),
+            @ApiResponse(code = 200, message = "Producto Encontrado"),
             @ApiResponse(code = 400, message = "Ingreso invalido. Debe poner un id mayor a 0."),
-            @ApiResponse(code = 404, message = "Libro no encontrado.")
+            @ApiResponse(code = 404, message = "Producto no encontrado.")
     })
     public Response getProducto(@PathParam("id") Long idProducto) {
         Product product = productoRepository.find(idProducto);
@@ -58,6 +61,26 @@ public class ProductsEndPoint {
         return Response.ok(product).build();
     }
 
+    @RolesAllowed("ADMIN")
+    @GET
+    @Path("/categoria/{id : \\d+}")
+    @Produces(APPLICATION_JSON)
+    @ApiOperation(value = "Devuelve productos de una categoria", response = Product.class)
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Productos Encontrados"),
+            @ApiResponse(code = 400, message = "Ingreso invalido. Debe poner un id mayor a 0."),
+            @ApiResponse(code = 404, message = "Productos no encontrados.")
+    })
+    public Response getProductosByCategoria(@PathParam("id") Long idCategoria) {
+        List<Product> productos = productoRepository.findProductsByCategoria(idCategoria);
+
+        if (productos == null)
+            return Response.status(Response.Status.NOT_FOUND).build();
+
+        return Response.ok(productos).build();
+    }
+
+    @RolesAllowed("ADMIN")
     @GET
     @Produces(APPLICATION_JSON)
     @ApiOperation(value = "Devuelve todos los productos", response = Product.class, responseContainer = "List")
@@ -66,21 +89,23 @@ public class ProductsEndPoint {
             @ApiResponse(code = 204, message = "No se encontro el producto"),
     })
     public Response getProductos() {
+
         List<Product> productos = productoRepository.findAll();
 
         if (productos.size() == 0)
-            return Response.noContent().build();
+            return Response.status(Response.Status.NOT_FOUND).build();
 
         return Response.ok(productos).build();
     }
 
+    @RolesAllowed("ADMIN")
     @GET
     @Path("/count")
     @Produces(TEXT_PLAIN)
     @ApiOperation(value = "Devuelve el total de la cantidad de productos", response = Long.class)
     @ApiResponses({
             @ApiResponse(code = 200, message = "Total de productos encontrados"),
-            @ApiResponse(code = 204, message = "No existen libros"),
+            @ApiResponse(code = 204, message = "No existen productos"),
     })
     public Response countProductos() {
         Long nbOfProducts = productoRepository.countAll();
@@ -91,6 +116,7 @@ public class ProductsEndPoint {
         return Response.ok(nbOfProducts).build();
     }
 
+    @RolesAllowed("ADMIN")
     @POST
     @Consumes(APPLICATION_JSON)
     @ApiOperation("Crea un producto en formato JSON")
@@ -108,6 +134,7 @@ public class ProductsEndPoint {
         return Response.created(createdURI).build();
     }
 
+    @RolesAllowed("ADMIN")
     @DELETE
     @Path("/{id : \\d+}")
     @ApiOperation("Elimina un producto a partir del id")
@@ -125,6 +152,7 @@ public class ProductsEndPoint {
         return Response.noContent().build();
     }
 
+    @RolesAllowed("ADMIN")
     @PUT
     @ApiOperation("Actualiza un producto")
     @ApiResponses({
@@ -139,6 +167,5 @@ public class ProductsEndPoint {
         }
         return Response.noContent().build();
     }
-
 
 }
