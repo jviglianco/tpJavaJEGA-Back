@@ -99,6 +99,23 @@ public class PedidosEndPoint {
     }
 
     @RolesAllowed("ADMIN")
+    @GET
+    @Path("/count/usuario/{idUsuario : \\d+}")
+    @Produces(TEXT_PLAIN)
+    @ApiOperation(value = "Devuelve el total de la cantidad de pedidos por usuario", response = Long.class)
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Total de pedidos por usuario encontrados"),
+            @ApiResponse(code = 204, message = "No existen pedidos para el usuario"),
+    })
+    public Response countPedidosByUsuario(@PathParam("idUsuario") Long idUsuario) {
+        Long nbOfPedidos = pedidoRepository.countPedidosByUsuario(idUsuario);
+
+        if (nbOfPedidos == 0)
+            return Response.status(Response.Status.NO_CONTENT).build();
+
+        return Response.ok(nbOfPedidos).build();
+    }
+    @RolesAllowed("ADMIN")
     @POST
     @Consumes(APPLICATION_JSON)
     @ApiOperation("Crea un pedido en formato JSON")
@@ -112,6 +129,7 @@ public class PedidosEndPoint {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        //Aca rompe, falta validar que no vuelva nulo cuando existe un pedido activo
         URI createdURI = uriInfo.getBaseUriBuilder().path(pedido.getIdPedido().toString()).build();
         return Response.created(createdURI).build();
     }

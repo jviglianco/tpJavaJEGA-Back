@@ -25,11 +25,11 @@ public class DetallePedido {
 
     @Column(name = "cantidad")
     @ApiModelProperty("Imagen de la categoria")
-    private String cantidad;
+    private Long cantidad;
 
     @Column(name = "subtotal")
     @ApiModelProperty("Imagen de la categoria")
-    private String subtotal;
+    private Double subtotal;
 
     @ManyToOne(cascade=CascadeType.MERGE)
     @JoinColumn(name = "idPedido")
@@ -53,19 +53,19 @@ public class DetallePedido {
         this.idProducto = idProducto;
     }
 
-    public String getCantidad() {
+    public Long getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(String cantidad) {
+    public void setCantidad(Long cantidad) {
         this.cantidad = cantidad;
     }
 
-    public String getSubtotal() {
+    public Double getSubtotal() {
         return subtotal;
     }
 
-    public void setSubtotal(String subtotal) {
+    public void setSubtotal(Double subtotal) {
         this.subtotal = subtotal;
     }
 
